@@ -2,42 +2,39 @@ import React, { useEffect, useCallback } from 'react';
 import { folder, useControls, useCreateStore } from 'leva';
 import { useDropzone } from 'react-dropzone';
 import { useDrag } from '@use-gesture/react';
+import { StoreType } from 'leva/dist/declarations/src/types';
 
-export function Box({ index, selected, setSelect }) {
+export function Box({ index, selected, setSelect }: { index: number, selected: boolean, setSelect: ([]: [index: number, store: StoreType]) => void }) {
     const store = useCreateStore();
 
-    const [{ position, size, color, fillColor, fillMode, fillImage, width }, set] = useControls(
-        () => ({
-            position: {
-                value: [window.innerWidth / 2 - 150, window.innerHeight / 2],
-                step: 1,
-            },
+    const [{ position, size, color, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
+        {
+            position: { value: [window.innerWidth / 2 - 150, window.innerHeight / 2], step: 1, },
             size: { value: { width: 100, height: 100 }, min: 10, lock: true },
             fillMode: { value: 'color', options: ['image'] },
-            fillColor: {
-                value: '#cfcfcf',
-                label: 'fill',
-                render: (get) => get('fillMode') === 'color',
-            },
-            fillImage: {
-                image: undefined,
-                label: 'fill',
-                render: (get) => get('fillMode') === 'image',
-            },
-            stroke: folder({ 
-                color: '#555555', 
-                width: { value: 1, min: 0, max: 10 } }
+            fillColor: { value: '#cfcfcf', label: 'fill', render: (get) => get('fillMode') === 'color', },
+            fillImage: { image: undefined, label: 'fill', render: (get) => get('fillMode') === 'image', },
+            stroke: folder({ color: '#555555', width: { value: 1, min: 0, max: 10 } }
             ),
         }),
         { store }
     );
 
-    const bind = useDrag(({ first, movement: [x, y], args: controls, memo = { position, size } }) => {
-        if (first) setSelect([index, store]);
+    const bind = useDrag((
+        {
+            first,
+            movement: [x, y],
+            args: controls,
+            memo = { position, size }
+        }
+    ) => {
+        if (first) {
+            setSelect([index, store]);
+        }
         let _position = [...memo.position];
         let _size = { ...memo.size };
 
-        controls.forEach(([control, mod]) => {
+        controls.forEach(([control, mod]: [control: 'position' | 'width' | 'height', mod: number]) => {
             switch (control) {
                 case 'position':
                     _position[0] += x;
@@ -63,18 +60,13 @@ export function Box({ index, selected, setSelect }) {
     }, [index, store, setSelect]);
 
     const onDrop = useCallback(
-        (acceptedFiles) => {
-            if (!acceptedFiles.length) return;
-            set({ fillImage: acceptedFiles[0], fillMode: 'image' });
+        (acceptedFiles: File[]) => {
+            acceptedFiles.length && set({ fillImage: acceptedFiles[0], fillMode: 'image' });
         },
         [set]
     );
 
-    const { getRootProps, isDragAccept } = useDropzone({
-        maxFiles: 1,
-        accept: 'image/*',
-        onDrop,
-    });
+    const { getRootProps, isDragAccept } = useDropzone({ maxFiles: 1, accept: 'image/*', onDrop, });
 
     const background = fillMode === 'color' || !fillImage ? fillColor : `center / cover no-repeat url(${fillImage})`;
 

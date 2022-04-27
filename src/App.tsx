@@ -1,15 +1,16 @@
 import React, { useEffect, useCallback } from 'react';
 import { folder, Leva, useControls, LevaPanel, useCreateStore, button } from 'leva';
+import { StoreType } from 'leva/dist/declarations/src/types';
 import { Box } from './Box';
 import './styles.css';
 
 export default function App() {
-    const [boxes, setBoxes] = React.useState([]);
-    const [[selection, store], setSelection] = React.useState([-1, null]);
+    const [boxes, setBoxes] = React.useState<number[]>([]);
+    const [[selection, store], setSelection] = React.useState<[index: number, store: StoreType | null]>([-1, null]);
 
     React.useEffect(() => {
-        function deleteSelection(e) {
-            if (e.key === 'Backspace' && selection > -1 && e.target.classList.contains('selected')) {
+        function deleteSelection(e: KeyboardEvent) {
+            if (e.key === 'Backspace' && selection > -1 && (e.target as HTMLElement)?.classList.contains('selected')) {
                 setBoxes((b) => {
                     const _b = [...b];
                     _b.splice(selection, 1);
@@ -23,7 +24,7 @@ export default function App() {
         return () => window.removeEventListener('keydown', deleteSelection);
     }, [selection]);
 
-    const unSelect = (e) => {
+    const unSelect = (e: React.MouseEvent) => {
         if (e.target === e.currentTarget) {
             setSelection([-1, null]);
         }
