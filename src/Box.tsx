@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useDrag } from '@use-gesture/react';
 import { StoreType } from 'leva/dist/declarations/src/types';
 
-export function Box({ index, selected, setSelect }: { index: number, selected: boolean, setSelect: ([]: [index: number, store: StoreType]) => void }) {
+export function Box({ index, selected, setSelect }: { index: number, selected: boolean, setSelect: ([]: [index: number, store: StoreType]) => void; }) {
     const store = useCreateStore();
 
     const [{ position, size, color, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
@@ -66,9 +66,7 @@ export function Box({ index, selected, setSelect }: { index: number, selected: b
         [set]
     );
 
-    const { getRootProps, isDragAccept } = useDropzone({ maxFiles: 1, accept: 'image/*', onDrop, });
-
-    const background = fillMode === 'color' || !fillImage ? fillColor : `center / cover no-repeat url(${fillImage})`;
+    const { getRootProps, isDragAccept } = useDropzone({ maxFiles: 1, accept: 'image/*', onDrop, noClick: true });
 
     return (
         <div
@@ -76,7 +74,7 @@ export function Box({ index, selected, setSelect }: { index: number, selected: b
             tabIndex={index}
             className={`box ${selected ? 'selected' : ''}`}
             style={{
-                background,
+                background: fillMode === 'color' || !fillImage ? fillColor : `center / cover no-repeat url(${fillImage})`,
                 width: size.width,
                 height: size.height,
                 boxShadow: `inset 0 0 0 ${width}px ${color}`,
