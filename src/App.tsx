@@ -1,45 +1,51 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React, { useEffect, useCallback } from 'react';
+import { folder, Leva, useControls, LevaPanel, useCreateStore, button } from 'leva';
+import { Box } from './Box';
+import './styles.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+    const [boxes, setBoxes] = React.useState([]);
+    const [[selection, store], setSelection] = React.useState([-1, null]);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    React.useEffect(() => {
+        function deleteSelection(e) {
+            if (e.key === 'Backspace' && selection > -1 && e.target.classList.contains('selected')) {
+                setBoxes((b) => {
+                    const _b = [...b];
+                    _b.splice(selection, 1);
+                    return _b;
+                });
+                setSelection([-1, null]);
+            }
+        }
+        window.addEventListener('keydown', deleteSelection);
+
+        return () => window.removeEventListener('keydown', deleteSelection);
+    }, [selection]);
+
+    const unSelect = (e) => {
+        if (e.target === e.currentTarget) {
+            setSelection([-1, null]);
+        }
+    };
+
+    const addBox = () => {
+        setBoxes((b) => [...b, Date.now()]);
+    };
+
+    useControls({ 'New Box': button(addBox) });
+
+    return (
+        <div className="wrapper">
+            <div className="canvas" onClick={unSelect}>
+                {boxes.map((v, i) => (
+                    <Box key={v} selected={selection === i} index={i} setSelect={setSelection} />
+                ))}
+            </div>
+            <div className="panel">
+                <Leva fill flat titleBar={false} />
+                <LevaPanel store={store} fill flat titleBar={false} />
+            </div>
+        </div>
+    );
 }
-
-export default App
