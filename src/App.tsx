@@ -31,7 +31,7 @@ export default function App() {
     };
 
     const addBox = () => {
-        setBoxes((b) => [...b, Date.now()]);
+        setBoxes((boxes) => [...boxes, Date.now()]);
     };
 
     useControls({ 'New Box': button(addBox) });
@@ -39,8 +39,8 @@ export default function App() {
     return (
         <div className="wrapper">
             <div className="canvas" onClick={unSelect}>
-                {boxes.map((v, i) => (
-                    <Box key={v} selected={selection === i} index={i} setSelect={setSelection} />
+                {boxes.map((boxId, idx) => (
+                    <Box key={boxId} selected={selection === idx} index={idx} setSelect={setSelection} />
                 ))}
             </div>
             <div className="panel">
