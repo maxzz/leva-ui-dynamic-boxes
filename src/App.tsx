@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback } from 'react';
 import { folder, Leva, useControls, LevaPanel, useCreateStore, button } from 'leva';
 import { StoreType } from 'leva/dist/declarations/src/types';
-import { Box } from './Box';
+import { Box, BoxData } from './Box';
 import './styles.css';
 
 export default function App() {
-    const [boxes, setBoxes] = React.useState<number[]>([]);
+    const [boxes, setBoxes] = React.useState<BoxData[]>([]);
     const [[selection, store], setSelection] = React.useState<[index: number, store: StoreType | null]>([-1, null]);
 
     React.useEffect(() => {
@@ -31,7 +31,10 @@ export default function App() {
     };
 
     const addBox = () => {
-        setBoxes((boxes) => [...boxes, Date.now()]);
+        setBoxes((boxes) => [...boxes, {
+            index: Date.now(),
+            store: useCreateStore(),
+        }]);
     };
 
     useControls({ 'New Box': button(addBox) });
@@ -39,8 +42,8 @@ export default function App() {
     return (
         <div className="wrapper">
             <div className="canvas" onClick={unSelect}>
-                {boxes.map((boxId, idx) => (
-                    <Box key={boxId} selected={selection === idx} index={idx} setSelect={setSelection} />
+                {boxes.map((box, idx) => (
+                    <Box index={idx} store={box.store} selected={selection === idx} setSelect={setSelection} key={box.index} />
                 ))}
             </div>
             <div className="panel">

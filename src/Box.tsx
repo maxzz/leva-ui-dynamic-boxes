@@ -4,8 +4,12 @@ import { useDropzone } from 'react-dropzone';
 import { useDrag } from '@use-gesture/react';
 import { StoreType } from 'leva/dist/declarations/src/types';
 
-export function Box({ index, selected, setSelect }: { index: number, selected: boolean, setSelect: ([]: [index: number, store: StoreType]) => void; }) {
-    const store = useCreateStore();
+export type BoxData = {
+    index: number;
+    store: StoreType;
+}
+
+export function Box({ index, store, selected, setSelect }: { index: number, store: StoreType, selected: boolean, setSelect: ([]: [index: number, store: StoreType]) => void; }) {
 
     const [{ position, size, color, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
         {
@@ -54,7 +58,7 @@ export function Box({ index, selected, setSelect }: { index: number, selected: b
                 default:
             }
         });
-        
+
         set({ position: _position, size: _size });
         return memo;
     });
