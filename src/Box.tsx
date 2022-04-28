@@ -20,6 +20,9 @@ export function Box({ index, selected, setSelect }: { index: number, selected: b
         { store }
     );
 
+    //TODO: problem: cannot call set from useDrag callback (Warning: Maximum update depth exceeded.)
+    //TODO: problem: HMR will clear store object
+    
     const bind = useDrag((
         {
             first,
@@ -51,6 +54,7 @@ export function Box({ index, selected, setSelect }: { index: number, selected: b
                 default:
             }
         });
+        
         set({ position: _position, size: _size });
         return memo;
     });
