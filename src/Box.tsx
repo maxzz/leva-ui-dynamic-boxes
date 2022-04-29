@@ -6,10 +6,17 @@ import { StoreType } from 'leva/dist/declarations/src/types';
 
 export type BoxData = {
     index: number;
-    store: StoreType;
-}
+    store: StoreType | null;
+};
 
-export function Box({ index, store, selected, setSelect }: { index: number, store: StoreType, selected: boolean, setSelect: ([]: [index: number, store: StoreType]) => void; }) {
+type BoxProps = {
+    index: number;
+    store: StoreType;
+    selected: boolean;
+    setSelect: ([]: [index: number, store: StoreType]) => void;
+};
+
+export function Box({ index, store, selected, setSelect }: BoxProps) {
 
     const [{ position, size, color, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
         {
@@ -18,15 +25,24 @@ export function Box({ index, store, selected, setSelect }: { index: number, stor
             fillMode: { value: 'color', options: ['image'] },
             fillColor: { value: '#cfcfcf', label: 'fill', render: (get) => get('fillMode') === 'color', },
             fillImage: { image: undefined, label: 'fill', render: (get) => get('fillMode') === 'image', },
-            stroke: folder({ color: '#555555', width: { value: 1, min: 0, max: 10 } }
-            ),
+            stroke: folder({ color: '#555555', width: { value: 1, min: 0, max: 10 } }),
         }),
         { store }
     );
 
+    console.log('render', position.map(Math.floor), Object.entries(size).map((item) => ({ [item[0]]: Math.floor(item[1]) })));
+
+    React.useEffect(() => {
+        console.log('mounted');
+
+        return () => {
+            console.log('unmounted');
+        };
+    }, []);
+
     //TODO: problem: cannot call set from useDrag callback (Warning: Maximum update depth exceeded.)
     //TODO: problem: HMR will clear store object
-    
+
     const bind = useDrag((
         {
             first,
@@ -58,6 +74,9 @@ export function Box({ index, store, selected, setSelect }: { index: number, stor
                 default:
             }
         });
+
+        console.log('   set', _position.map(Math.floor), _size);
+        // console.log('   set', _position.map(Math.floor), Object.entries(_size).map(([k, v]) => [k, Math.floor(v as number)] ));
 
         set({ position: _position, size: _size });
         return memo;
@@ -101,3 +120,14 @@ export function Box({ index, store, selected, setSelect }: { index: number, stor
         </div>
     );
 }
+
+export function BoxWithStore(props: Omit<BoxProps, 'store'>) {
+    const store = useCreateStore();
+    return <Box {...props} store={store} />;
+};
+
+
+// const withStore = (BaseComponent: any) => (props: any) => {
+//     const store = useCreateStore();
+//     return <BaseComponent {...props} store={store} />;
+// };
