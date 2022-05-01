@@ -95,11 +95,11 @@ export function BoxBody({ index, store, selected, setSelect }: BoxProps) {
 
     const onDrop = useCallback((acceptedFiles: File[]) => acceptedFiles.length && set({ fillImage: acceptedFiles[0], fillMode: 'image' }), [set]);
 
-    const { getRootProps, isDragAccept } = useDropzone({ maxFiles: 1, accept: 'image/*', onDrop, noClick: true });
+    const { getRootProps: dropzoneProps, isDragAccept: isDragDropAccept } = useDropzone({ maxFiles: 1, accept: 'image/*', onDrop, noClick: true });
 
     return (
         <div
-            {...getRootProps()}
+            {...dropzoneProps()}
             tabIndex={index}
             className={`box ${selected ? 'selected' : ''}`}
             style={{
@@ -110,6 +110,8 @@ export function BoxBody({ index, store, selected, setSelect }: BoxProps) {
                 transform: `translate(${position[0]}px, ${position[1]}px)`,
             }}
         >
+            <div className="w-full h-full bg-red-100">11</div>
+
             <span className="handle top" {...bind(['height', -1])} />
             <span className="handle right" {...bind(['width', 1])} />
             <span className="handle bottom" {...bind(['height', 1])} />
@@ -120,7 +122,7 @@ export function BoxBody({ index, store, selected, setSelect }: BoxProps) {
             <span className="handle corner bottom-left" {...bind(['width', -1], ['height', 1])} />
             <span className="handle corner bottom-right" {...bind(['width', 1], ['height', 1])} />
 
-            <span className="handle position" {...bind(['position'])} style={{ background: isDragAccept ? '#18a0fb66' : 'transparent' }} />
+            <span className="handle position" {...bind(['position'])} style={{ background: isDragDropAccept ? '#18a0fb66' : 'transparent' }} />
         </div>
     );
 }
