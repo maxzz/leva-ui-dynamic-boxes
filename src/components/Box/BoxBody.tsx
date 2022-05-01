@@ -39,7 +39,7 @@ export function BoxBody({ index, store, selected, setSelect }: BoxProps) {
         { store }
     );
 
-    console.log('render', 'store:', store.storeId, roundPos(position), roundSize(size));
+    // console.log('render', 'store:', store.storeId, roundPos(position), roundSize(size));
 
     // React.useEffect(() => {
     //     console.log('mounted', 'store:', store.storeId);
@@ -79,11 +79,11 @@ export function BoxBody({ index, store, selected, setSelect }: BoxProps) {
 
         const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _size.width === size.width && _size.height === size.height;
         if (!stillTheSame) {
-            console.log('--------------------different----------------------------');
-            console.log('set1', roundPos(_position), roundSize(_size));
+            // console.log('--------------------different----------------------------');
+            // console.log('set1', roundPos(_position), roundSize(_size));
 
             set({ position: _position, size: _size });
-            console.log('set2', roundPos(_position), roundSize(_size));
+            // console.log('set2', roundPos(_position), roundSize(_size));
         }
 
         return memo;
