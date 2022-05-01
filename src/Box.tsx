@@ -16,13 +16,8 @@ export type BoxProps = {
     setSelect: ([]: [index: number, store: StoreType]) => void;
 };
 
-const printPos = (position: number[]) => {
-    return position.map(Math.floor);
-};
-
-const printSize = (size: { width: number; height: number; }) => {
-    return Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)]));
-};
+const printPos = (position: number[]) => position.map(Math.floor);
+const printSize = (size: Record<string, number>) => Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)]));
 
 export function Box({ index, store, selected, setSelect }: BoxProps) {
 
@@ -30,9 +25,11 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
         {
             position: { value: [window.innerWidth / 2 - 150, window.innerHeight / 2], step: 1, },
             size: { value: { width: 100, height: 100 }, min: 10, lock: true },
+
             fillMode: { value: 'color', options: ['image'] },
-            fillColor: { value: '#cfcfcf', label: 'fill', render: (get) => get('fillMode') === 'color', },
+            fillColor: { value: '#ff8600', label: 'fill', render: (get) => get('fillMode') === 'color', },
             fillImage: { image: undefined, label: 'fill', render: (get) => get('fillMode') === 'image', },
+
             stroke: folder({ color: '#555555', width: { value: 1, min: 0, max: 10 } }),
         }),
         { store }
@@ -40,13 +37,12 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
 
     console.log('render', 'store:', store.storeId, printPos(position), printSize(size));
 
-    React.useEffect(() => {
-        console.log('mounted', 'store:', store.storeId);
-
-        return () => {
-            console.log('unmount', 'store:', store.storeId);
-        };
-    }, [store]);
+    // React.useEffect(() => {
+    //     console.log('mounted', 'store:', store.storeId);
+    //     return () => {
+    //         console.log('un-----', 'store:', store.storeId);
+    //     };
+    // }, [store]);
 
     //TODO: problem: cannot call set from useDrag callback (Warning: Maximum update depth exceeded.)
     //TODO: problem: HMR will clear store object
@@ -122,10 +118,12 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
             <span className="handle right" {...bind(['width', 1])} />
             <span className="handle bottom" {...bind(['height', 1])} />
             <span className="handle left" {...bind(['width', -1])} />
+
             <span className="handle corner top-left" {...bind(['width', -1], ['height', -1])} />
             <span className="handle corner top-right" {...bind(['width', 1], ['height', -1])} />
             <span className="handle corner bottom-left" {...bind(['width', -1], ['height', 1])} />
             <span className="handle corner bottom-right" {...bind(['width', 1], ['height', 1])} />
+            
             <span className="handle position" {...bind(['position'])} style={{ background: isDragAccept ? '#18a0fb66' : 'transparent' }} />
         </div>
     );
