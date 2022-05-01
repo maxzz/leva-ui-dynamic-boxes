@@ -16,6 +16,14 @@ type BoxProps = {
     setSelect: ([]: [index: number, store: StoreType]) => void;
 };
 
+const printPos = (position: [number, number]) => {
+    return position.map(Math.floor);
+};
+
+const printSize = (size: { width: number; height: number; }) => {
+    return Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)]));
+};
+
 export function Box({ index, store, selected, setSelect }: BoxProps) {
 
     const [{ position, size, color, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
@@ -30,7 +38,8 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
         { store }
     );
 
-    console.log('render', position.map(Math.floor), Object.entries(size).map((item) => ({ [item[0]]: Math.floor(item[1]) })));
+    console.log('render', printPos(position), printSize(size));
+    // console.log('render', position.map(Math.floor), Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)])));
 
     React.useEffect(() => {
         console.log('mounted');
@@ -54,6 +63,7 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
         if (first) {
             setSelect([index, store]);
         }
+
         let _position = [...memo.position];
         let _size = { ...memo.size };
 
@@ -75,8 +85,8 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
             }
         });
 
-        console.log('   set', _position.map(Math.floor), _size);
-        // console.log('   set', _position.map(Math.floor), Object.entries(_size).map(([k, v]) => [k, Math.floor(v as number)] ));
+        //console.log('   set', _position.map(Math.floor), _size);
+        console.log('   set', _position.map(Math.floor), Object.fromEntries(Object.entries(_size).map(([k, v]) => [k, Math.floor(v as number)])));
 
         set({ position: _position, size: _size });
         return memo;
