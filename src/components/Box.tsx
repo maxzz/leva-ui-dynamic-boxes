@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { folder, useControls, useCreateStore } from 'leva';
+import { folder, useControls } from 'leva';
 import { useDropzone } from 'react-dropzone';
 import { useDrag } from '@use-gesture/react';
 import { StoreType } from 'leva/dist/declarations/src/types';
@@ -21,19 +21,18 @@ const roundSize = (size: Record<string, number>) => Object.fromEntries(Object.en
 
 export function Box({ index, store, selected, setSelect }: BoxProps) {
 
-    const [{ position, size, color, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
+    const [{ position, size, strokeColor, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
         {
             position: { value: [window.innerWidth / 2 - 150, window.innerHeight / 2], step: 1, },
             size: { value: { width: 100, height: 100 }, min: 10, lock: true },
 
-            fill: folder({
+            style: folder({
                 fillMode: { value: 'color', options: ['image'] },
-                fillColor: { value: '#ff8600', label: 'fill', render: (get) => get('fillMode') === 'color', },
-                fillImage: { image: undefined, label: 'fill', render: (get) => get('fillMode') === 'image', },
-            }),
-            stroke: folder({
-                color: '#555555',
-                width: { value: 1, min: 0, max: 10 },
+                fillColor: { value: '#ff8600', label: 'fill-color', render: (get) => get('style.fillMode') === 'color', },
+                fillImage: { image: undefined, label: 'fill image', render: (get) => get('style.fillMode') === 'image', },
+
+                strokeColor: { value: '#555555', label: 'stroke-color' },
+                width: { value: 1, min: 0, max: 10, step: 1, label: 'stroke-width' },
             }),
         }),
         { store }
@@ -106,7 +105,7 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
                 background: fillMode === 'color' || !fillImage ? fillColor : `center / cover no-repeat url(${fillImage})`,
                 width: size.width,
                 height: size.height,
-                boxShadow: `inset 0 0 0 ${width}px ${color}`,
+                boxShadow: `inset 0 0 0 ${width}px ${strokeColor}`,
                 transform: `translate(${position[0]}px, ${position[1]}px)`,
             }}
         >
