@@ -1,8 +1,20 @@
-import React, { useEffect, useCallback } from 'react';
-import { folder, Leva, useControls, LevaPanel, useCreateStore, button } from 'leva';
+import React from 'react';
+import { Leva, useControls, LevaPanel, useCreateStore, button } from 'leva';
 import { StoreType } from 'leva/dist/declarations/src/types';
-import { Box, BoxData, BoxWithStore } from './Box';
+import { Box, BoxData, BoxProps, } from './Box';
 import './styles.css';
+
+export function BoxWithStore(props: Omit<BoxProps, 'store'>) {
+    const store = useCreateStore();
+    return <Box {...props} store={store} />;
+};
+
+
+// const withStore = (BaseComponent: any) => (props: any) => {
+//     const store = useCreateStore();
+//     return <BaseComponent {...props} store={store} />;
+// };
+
 
 export default function App() {
     const [boxes, setBoxes] = React.useState<BoxData[]>([]);

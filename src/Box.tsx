@@ -9,14 +9,14 @@ export type BoxData = {
     store: StoreType | null;
 };
 
-type BoxProps = {
+export type BoxProps = {
     index: number;
     store: StoreType;
     selected: boolean;
     setSelect: ([]: [index: number, store: StoreType]) => void;
 };
 
-const printPos = (position: [number, number]) => {
+const printPos = (position: number[]) => {
     return position.map(Math.floor);
 };
 
@@ -38,16 +38,15 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
         { store }
     );
 
-    console.log('render', printPos(position), printSize(size));
-    // console.log('render', position.map(Math.floor), Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)])));
+    console.log('render', 'store:', store.storeId, printPos(position), printSize(size));
 
     React.useEffect(() => {
-        console.log('mounted');
+        console.log('mounted', 'store:', store.storeId);
 
         return () => {
-            console.log('unmounted');
+            console.log('unmount', 'store:', store.storeId);
         };
-    }, []);
+    }, [store]);
 
     //TODO: problem: cannot call set from useDrag callback (Warning: Maximum update depth exceeded.)
     //TODO: problem: HMR will clear store object
@@ -85,10 +84,11 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
             }
         });
 
-        //console.log('   set', _position.map(Math.floor), _size);
-        console.log('   set', _position.map(Math.floor), Object.fromEntries(Object.entries(_size).map(([k, v]) => [k, Math.floor(v as number)])));
+        console.log('set1', printPos(_position), printSize(_size));
 
         set({ position: _position, size: _size });
+        console.log('set2', printPos(_position), printSize(_size));
+
         return memo;
     });
 
@@ -130,14 +130,3 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
         </div>
     );
 }
-
-export function BoxWithStore(props: Omit<BoxProps, 'store'>) {
-    const store = useCreateStore();
-    return <Box {...props} store={store} />;
-};
-
-
-// const withStore = (BaseComponent: any) => (props: any) => {
-//     const store = useCreateStore();
-//     return <BaseComponent {...props} store={store} />;
-// };
