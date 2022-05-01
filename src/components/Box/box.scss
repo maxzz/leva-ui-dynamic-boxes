@@ -1,3 +1,20 @@
+.box {
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    outline: none;
+    touch-action: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+.box.selected {
+    z-index: 100;
+}
+
 .handle {
     touch-action: none;
     position: absolute;

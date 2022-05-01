@@ -1,0 +1,21 @@
+.wrapper {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: stretch;
+}
+
+.panel {
+    position: relative;
+    width: 300px;
+    background: #181c20;
+    padding-top: 30px;
+    z-index: 1000;
+}
+
+.canvas {
+    flex: 1;
+    display: flex;
+    outline: none;
+    // background: #f9f9f9;
+}
