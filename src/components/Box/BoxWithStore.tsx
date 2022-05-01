@@ -1,9 +1,9 @@
 import { useCreateStore } from "leva";
-import { Box, BoxProps } from "./Box";
+import { BoxBody, BoxProps } from "./BoxBody";
 
 export function BoxWithStore(props: Omit<BoxProps, 'store'>) {
     const store = useCreateStore();
-    return <Box {...props} store={store} />;
+    return <BoxBody {...props} store={store} />;
 };
 
 // const withStore = (BaseComponent: any) => (props: any) => {

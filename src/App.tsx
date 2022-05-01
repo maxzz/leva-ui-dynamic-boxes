@@ -1,8 +1,8 @@
 import React from 'react';
 import { Leva, useControls, LevaPanel, button } from 'leva';
 import { StoreType } from 'leva/dist/declarations/src/types';
-import { BoxData } from './components/Box';
-import { BoxWithStore } from './components/BoxWithStore';
+import { BoxData } from './components/Box/BoxBody';
+import { BoxWithStore } from './components/Box/BoxWithStore';
 import './styles.css';
 
 export default function App() {

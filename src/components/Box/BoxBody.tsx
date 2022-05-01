@@ -19,7 +19,7 @@ export type BoxProps = {
 const roundPos = (position: number[]) => position.map(Math.floor);
 const roundSize = (size: Record<string, number>) => Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)]));
 
-export function Box({ index, store, selected, setSelect }: BoxProps) {
+export function BoxBody({ index, store, selected, setSelect }: BoxProps) {
 
     const [{ position, size, strokeColor, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
         {
