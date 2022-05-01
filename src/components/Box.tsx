@@ -44,17 +44,7 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
     //     };
     // }, [store]);
 
-    //TODO: problem: cannot call set from useDrag callback (Warning: Maximum update depth exceeded.)
-    //TODO: problem: HMR will clear store object
-
-    const bind = useDrag((
-        {
-            first,
-            movement: [x, y],
-            args: controls,
-            memo = { position, size }
-        }
-    ) => {
+    const bind = useDrag(({ first, movement: [x, y], args: controls, memo = { position, size } }) => {
         if (first) {
             setSelect([index, store]);
         }
@@ -80,8 +70,12 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
             }
         });
 
+        _position = roundPos(_position);
+        _size = roundSize(_size);
+
         const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _size.width === size.width && _size.height === size.height;
         if (!stillTheSame) {
+            console.log('--------------------different----------------------------');
             console.log('set1', roundPos(_position), roundSize(_size));
 
             set({ position: _position, size: _size });
@@ -126,8 +120,11 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
             <span className="handle corner top-right" {...bind(['width', 1], ['height', -1])} />
             <span className="handle corner bottom-left" {...bind(['width', -1], ['height', 1])} />
             <span className="handle corner bottom-right" {...bind(['width', 1], ['height', 1])} />
-            
+
             <span className="handle position" {...bind(['position'])} style={{ background: isDragAccept ? '#18a0fb66' : 'transparent' }} />
         </div>
     );
 }
+
+//TODO: problem: cannot call set from useDrag callback (Warning: Maximum update depth exceeded.)
+//TODO: problem: HMR will clear store object
