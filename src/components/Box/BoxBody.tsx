@@ -17,29 +17,20 @@ export type BoxProps = {
     setSelect: ([]: [index: number, store: StoreType]) => void;
 };
 
-const roundPos = (position: number[]) => position.map(Math.floor);
+const roundPos = <T extends number[]>(position: T): T => position.map(Math.floor) as T;
 const roundSize = (size: Record<string, number>) => Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)]));
 
-function BodyHandles({ position, size, selected, setSelected }:
-    { position: [number, number], size: { width: number; height: number; }; selected: boolean; setSelected: (v: boolean) => void; }
+type Position = [x: number, y: number, width: number, height: number];
+
+function BodyHandles({ position, setPosition, selected, setSelected }:
+    { position: Position; setPosition: (v: Position) => void; selected: boolean; setSelected: (v: boolean) => void; }
 ) {
-
-    // console.log('render', 'store:', store.storeId, roundPos(position), roundSize(size));
-
-    // React.useEffect(() => {
-    //     console.log('mounted', 'store:', store.storeId);
-    //     return () => {
-    //         console.log('un-----', 'store:', store.storeId);
-    //     };
-    // }, [store]);
-
-    const bind = useDrag(({ first, movement: [x, y], args: controls, memo = { position, size } }) => {
+    const bind = useDrag(({ first, movement: [x, y], args: controls, memo = { position } }) => {
         if (first) {
             setSelected(true);
         }
 
-        let _position = [...memo.position];
-        let _size = { ...memo.size };
+        let _position = [...memo.position] as Position;
 
         controls.forEach(([control, mod]: [control: 'position' | 'width' | 'height', mod: number]) => {
             switch (control) {
@@ -48,27 +39,22 @@ function BodyHandles({ position, size, selected, setSelected }:
                     _position[1] += y;
                     break;
                 case 'width':
-                    _size.width += x * mod;
+                    _position[2] += x * mod;
                     if (mod === -1) _position[0] += x;
                     break;
                 case 'height':
-                    _size.height += y * mod;
+                    _position[3] += y * mod;
                     if (mod === -1) _position[1] += y;
                     break;
                 default:
             }
         });
 
-        _position = roundPos(_position);
-        _size = roundSize(_size);
+        _position = roundPos<Position>(_position);
 
-        const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _size.width === size.width && _size.height === size.height;
+        const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _position[2] === position[2] && _position[3] === position[3];
         if (!stillTheSame) {
-            // console.log('--------------------different----------------------------');
-            // console.log('set1', roundPos(_position), roundSize(_size));
-
-            set({ position: _position, size: _size });
-            // console.log('set2', roundPos(_position), roundSize(_size));
+            setPosition(position);
         }
 
         return memo;
@@ -78,8 +64,8 @@ function BodyHandles({ position, size, selected, setSelected }:
         <div
             className={`box ${selected ? 'selected' : ''}`}
             style={{
-                width: size.width,
-                height: size.height,
+                width: position[2],
+                height: position[3],
                 transform: `translate(${position[0]}px, ${position[1]}px)`,
             }}
         >
