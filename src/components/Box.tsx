@@ -16,8 +16,8 @@ export type BoxProps = {
     setSelect: ([]: [index: number, store: StoreType]) => void;
 };
 
-const printPos = (position: number[]) => position.map(Math.floor);
-const printSize = (size: Record<string, number>) => Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)]));
+const roundPos = (position: number[]) => position.map(Math.floor);
+const roundSize = (size: Record<string, number>) => Object.fromEntries(Object.entries(size).map(([k, v]) => [k, Math.floor(v as number)]));
 
 export function Box({ index, store, selected, setSelect }: BoxProps) {
 
@@ -35,7 +35,7 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
         { store }
     );
 
-    console.log('render', 'store:', store.storeId, printPos(position), printSize(size));
+    console.log('render', 'store:', store.storeId, roundPos(position), roundSize(size));
 
     // React.useEffect(() => {
     //     console.log('mounted', 'store:', store.storeId);
@@ -80,10 +80,13 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
             }
         });
 
-        console.log('set1', printPos(_position), printSize(_size));
+        const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _size.width === size.width && _size.height === size.height;
+        if (!stillTheSame) {
+            console.log('set1', roundPos(_position), roundSize(_size));
 
-        set({ position: _position, size: _size });
-        console.log('set2', printPos(_position), printSize(_size));
+            set({ position: _position, size: _size });
+            console.log('set2', roundPos(_position), roundSize(_size));
+        }
 
         return memo;
     });
