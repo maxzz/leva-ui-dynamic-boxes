@@ -18,6 +18,12 @@
     opacity: 1;
 }
 
+// Handles
+
+$handle-size: 10px;
+$handle-half: calc($handle-size / 2);
+$handle-clr: #18a0fb;
+
 .handle {
     position: absolute;
     display: flex;
@@ -34,14 +40,9 @@
     height: 100%;
     z-index: 1;
 
-    box-shadow: 0 0 0 1px #18a0fb;
-    border: 1px solid #18a0fb;
+    box-shadow: 0 0 0 1px $handle-clr;
+    border: 1px solid $handle-clr;
 }
-
-// Handles
-
-$handle-size: 10px;
-$handle-half: calc($handle-size / 2);
 
 .handle {
     &.left {
@@ -63,7 +64,7 @@ $handle-half: calc($handle-size / 2);
     &.left,
     &.right {
         top: $handle-half;
-        width: 10px;
+        width: $handle-size;
         height: calc(100% - $handle-size);
         cursor: ew-resize;
     }
@@ -75,30 +76,31 @@ $handle-half: calc($handle-size / 2);
         height: $handle-size;
         cursor: ns-resize;
     }
+
     &.corner {
         height: $handle-size;
         width: $handle-size;
         background: #fff;
-        border: 1px solid #18a0fb;
+        border: 1px solid $handle-clr;
 
         &.top-left {
             top: -$handle-half;
             left: -$handle-half;
             cursor: nwse-resize;
         }
-        
+
         &.bottom-left {
             bottom: -$handle-half;
             left: -$handle-half;
             cursor: nesw-resize;
         }
-        
+
         &.top-right {
             top: -$handle-half;
             right: -$handle-half;
             cursor: nesw-resize;
         }
-        
+
         &.bottom-right {
             bottom: -$handle-half;
             right: -$handle-half;
