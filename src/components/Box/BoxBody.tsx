@@ -3,6 +3,7 @@ import { folder, useControls } from 'leva';
 import { useDropzone } from 'react-dropzone';
 import { useDrag } from '@use-gesture/react';
 import { StoreType } from 'leva/dist/declarations/src/types';
+import './box.scss';
 
 export type BoxData = {
     index: number;
