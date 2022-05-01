@@ -26,11 +26,15 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
             position: { value: [window.innerWidth / 2 - 150, window.innerHeight / 2], step: 1, },
             size: { value: { width: 100, height: 100 }, min: 10, lock: true },
 
-            fillMode: { value: 'color', options: ['image'] },
-            fillColor: { value: '#ff8600', label: 'fill', render: (get) => get('fillMode') === 'color', },
-            fillImage: { image: undefined, label: 'fill', render: (get) => get('fillMode') === 'image', },
-
-            stroke: folder({ color: '#555555', width: { value: 1, min: 0, max: 10 } }),
+            fill: folder({
+                fillMode: { value: 'color', options: ['image'] },
+                fillColor: { value: '#ff8600', label: 'fill', render: (get) => get('fillMode') === 'color', },
+                fillImage: { image: undefined, label: 'fill', render: (get) => get('fillMode') === 'image', },
+            }),
+            stroke: folder({
+                color: '#555555',
+                width: { value: 1, min: 0, max: 10 },
+            }),
         }),
         { store }
     );
@@ -89,12 +93,7 @@ export function Box({ index, store, selected, setSelect }: BoxProps) {
         setSelect([index, store]);
     }, [index, store, setSelect]);
 
-    const onDrop = useCallback(
-        (acceptedFiles: File[]) => {
-            acceptedFiles.length && set({ fillImage: acceptedFiles[0], fillMode: 'image' });
-        },
-        [set]
-    );
+    const onDrop = useCallback((acceptedFiles: File[]) => acceptedFiles.length && set({ fillImage: acceptedFiles[0], fillMode: 'image' }), [set]);
 
     const { getRootProps, isDragAccept } = useDropzone({ maxFiles: 1, accept: 'image/*', onDrop, noClick: true });
 
