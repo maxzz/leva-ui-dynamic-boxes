@@ -1,7 +1,7 @@
 import { folder, useControls } from "leva";
 import { StoreType } from "leva/dist/declarations/src/types";
 import { useState } from "react";
-import { BodyHandles, Position } from "./BodyHandles";
+import { BodyHandles, Position } from "./Box2Handles";
 
 export type Box2ControlsProps = {
     store: StoreType;
@@ -26,16 +26,19 @@ export function Box2Controls({ store }: Box2ControlsProps) {
         { store }
     );
 
-    const [position2, setPosition2] = useState<Position>([0, 0, 100, 100]);
-    // function setPosition(v: Position) {
-    //     console.log('setPosition', v);
-    // }
+    const _position: Position = [...position, size.width, size.height];
+
+    //const [position2, setPosition2] = useState<Position>([0, 0, 100, 100]);
+    function setPosition(v: Position) {
+        set({ position: [v[0], v[1]], size: { width: v[2], height: v[3], } });
+        console.log('setPosition', v);
+    }
     const [selected, setSelected] = useState(true);
     // function setSelected(v: boolean) {
     //     console.log('setSelected', v);
     // }
 
     return (
-        <BodyHandles position={position2} setPosition={setPosition2} selected={selected} setSelected={setSelected} />
+        <BodyHandles position={_position} setPosition={setPosition} selected={selected} setSelected={setSelected} />
     );
 }

@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { useDrag } from '@use-gesture/react';
 import { StoreType } from 'leva/dist/declarations/src/types';
 import './box.scss';
-import { roundPos } from './BodyHandles';
+import { roundPos } from './Box2Handles';
 
 export type BoxData = {
     index: number;
