@@ -1,7 +1,10 @@
 body {
     font-family: system-ui, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(140deg, rgb(165, 142, 251), rgb(233, 191, 248));
+    /* background: linear-gradient(140deg, rgb(165, 142, 251), rgb(233, 191, 248)); */
+    /* background-image: url('./assets/bkg.avif'); */
+    background-image: url('./assets/bkg.webp');
+
     margin: 0;
 }
 
