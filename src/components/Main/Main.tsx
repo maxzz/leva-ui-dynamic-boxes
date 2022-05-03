@@ -1,7 +1,7 @@
 import React from 'react';
 import { Leva, useControls, LevaPanel, button } from 'leva';
 import { StoreType } from 'leva/dist/declarations/src/types';
-import { Box, BoxData } from '../Box';
+import { Box, Box2, BoxData } from '../Box';
 import './Main.scss';
 
 export function Main() {
@@ -45,7 +45,8 @@ export function Main() {
             <div className="canvas" onClick={unSelect}>
                 {boxes.map((box, idx) => (
                     // <Box index={idx} store={box.store} selected={selection === idx} setSelect={setSelection} key={box.index} />
-                    <Box index={idx} selected={selection === idx} setSelect={setSelection} key={box.index} />
+                    // <Box index={idx}                   selected={selection === idx} setSelect={setSelection} key={box.index} />
+                    <Box2 index={idx} selected={selection === idx} setSelect={setSelection} key={box.index} />
                 ))}
             </div>
             <div className="panel">

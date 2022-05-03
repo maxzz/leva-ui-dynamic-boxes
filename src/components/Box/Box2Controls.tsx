@@ -4,7 +4,10 @@ import { useState } from "react";
 import { BodyHandles, Position } from "./Box2Handles";
 
 export type Box2ControlsProps = {
+    index: number;
     store: StoreType;
+    selected: boolean;
+    setSelect: ([]: [index: number, store: StoreType]) => void;
 };
 
 export function Box2Controls({ store }: Box2ControlsProps) {
