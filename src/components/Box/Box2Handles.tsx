@@ -4,9 +4,16 @@ export type Position = [x: number, y: number, width: number, height: number];
 
 export const roundPos = <T extends number[]>(position: T): T => position.map(Math.floor) as T;
 
-export function BodyHandles({ position, setPosition, selected, setSelected, children }:
-    { position: Position; setPosition: (v: Position) => void; selected: boolean; setSelected: (v: boolean) => void; children?: React.ReactNode }
-) {
+type BodyHandlersProps = {
+    position: Position;
+    setPosition: (v: Position) => void;
+    selected: boolean;
+    setSelected: (v: boolean) => void;
+    children?: React.ReactNode;
+};
+
+export function BodyHandles({ position, setPosition, selected, setSelected, children }: BodyHandlersProps) {
+
     const bind = useDrag(({ first, movement: [x, y], args: controls, memo = { position } }) => {
         if (first) {
             setSelected(true);
@@ -36,7 +43,7 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
 
         const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _position[2] === position[2] && _position[3] === position[3];
         if (!stillTheSame) {
-            setPosition(position);
+            setPosition(_position);
         }
 
         return memo;
