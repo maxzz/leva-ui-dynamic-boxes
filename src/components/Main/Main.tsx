@@ -41,18 +41,22 @@ export function Main() {
     useControls({ 'New Box': button(addBox) });
 
     return (
-        <div className="wrapper">
-            <div className="canvas" onClick={unSelect}>
-                {boxes.map((box, idx) => (
-                    // <Box index={idx} store={box.store} selected={selection === idx} setSelect={setSelection} key={box.index} />
-                    // <Box index={idx}                   selected={selection === idx} setSelect={setSelection} key={box.index} />
-                    <Box2 index={idx} selected={selection === idx} setSelect={setSelection} key={box.index} />
-                ))}
+        <div className="">
+            <div className="wrapper">
+                <div className="canvas" onClick={unSelect}>
+                    {boxes.map((box, idx) => (
+                        // <Box index={idx} store={box.store} selected={selection === idx} setSelect={setSelection} key={box.index} />
+                        // <Box index={idx}                   selected={selection === idx} setSelect={setSelection} key={box.index} />
+                        <Box2 index={idx} selected={selection === idx} setSelect={setSelection} key={box.index} />
+                    ))}
+                </div>
+                <div className="panel">
+                    <Leva fill flat titleBar={false} />
+                    <LevaPanel store={store} fill flat titleBar={false} />
+                </div>
+                
             </div>
-            <div className="panel">
-                <Leva fill flat titleBar={false} />
-                <LevaPanel store={store} fill flat titleBar={false} />
-            </div>
+            <div className="">github link</div>
         </div>
     );
 }
