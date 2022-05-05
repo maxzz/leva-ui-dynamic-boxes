@@ -1,22 +1,13 @@
 import { useCreateStore } from "leva";
 import { Box2Controls, Box2ControlsProps } from "./Box2Controls";
 
-//type Props<T> = T extends (...args: any[]) => infer R ? R : never;
-// var a: Props<Box2ControlsProps> = Box2Controls;
-// console.log(a);
+//type PropsWithoutStore<T> = T extends React.FC<infer Props> ? Omit<Props, 'store'> : never;
 
-// type PropsFrom<T> = T extends React.FC<infer Props> ? Props : never;
-// var a: PropsFrom<typeof Box2Controls> = {
-//     index: 0,
-//     store: useCreateStore(),
-//     selected: false,
-//     setSelect: (a) => {},
-// };
-// console.log(a);
+type PropsWithoutStore<T> = T extends (args: infer Props) => void ? Omit<Props, 'store'> : never;
 
-type PropsFrom<T> = T extends React.FC<infer Props> ? Omit<Props, 'store'> : never;
-var a: PropsFrom<typeof Box2Controls> = {
+var a: PropsWithoutStore<typeof Box2Controls> = {
     index: 0,
+    //store: 0,
     selected: false,
     setSelect: (a) => {},
 };
