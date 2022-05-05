@@ -4,6 +4,7 @@ import './box.scss';
 export type Position = [x: number, y: number, width: number, height: number];
 
 export const roundPos = <T extends number[]>(position: T): T => position.map(Math.floor) as T;
+const diffPos = <A extends number[], B extends number[]>(a: A, b: B): boolean => a.length !== b.length || a.some((_a, idx) => _a !== b[idx]);
 
 type BodyHandlersProps = {
     position: Position;
@@ -40,7 +41,13 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
             }
         });
 
-        _position = roundPos<Position>(_position);
+        _position = roundPos(_position);
+
+        console.log('called');
+        
+        if (diffPos(_position, position)) {
+            console.log('--------------------------------------------------------');
+        }
 
         const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _position[2] === position[2] && _position[3] === position[3];
         if (!stillTheSame) {
@@ -52,7 +59,7 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
 
     return (
         <div
-            className={`box ${selected ? 'selected' : ''}`}
+            className={`box${selected ? ' selected' : ''}`}
             style={{ width: position[2], height: position[3], transform: `translate(${position[0]}px, ${position[1]}px)`, }}
         >
             {children}
