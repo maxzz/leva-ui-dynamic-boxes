@@ -33,7 +33,6 @@ export function Main() {
     const addBox = () => {
         setBoxes((boxes) => [...boxes, {
             index: Date.now(),
-            // store: useCreateStore(),
             store: null,
         }]);
     };
@@ -45,8 +44,7 @@ export function Main() {
             <div className="wrapper">
                 <div className="canvas" onClick={unSelect}>
                     {boxes.map((box, idx) => (
-                        // <Box index={idx} store={box.store} selected={selection === idx} setSelect={setSelection} key={box.index} />
-                        // <Box index={idx}                   selected={selection === idx} setSelect={setSelection} key={box.index} />
+                        // <Box index={idx} selected={selection === idx} setSelect={setSelection} key={box.index} />
                         <Box2 index={idx} selected={selection === idx} setSelect={setSelection} key={box.index} />
                     ))}
                 </div>

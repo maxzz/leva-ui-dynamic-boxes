@@ -95,7 +95,7 @@ export function BoxBody({ index, store, selected, setSelect }: BoxProps) {
 
     const onDrop = useCallback((acceptedFiles: File[]) => acceptedFiles.length && set({ fillImage: acceptedFiles[0], fillMode: 'image' }), [set]);
 
-    const { getRootProps: dropzoneProps, isDragAccept: isDragDropAccept } = useDropzone({ maxFiles: 1, accept: 'image/*', onDrop, noClick: true });
+    const { getRootProps: dropzoneProps, isDragAccept: isDragDropAccept } = useDropzone({ maxFiles: 1, accept: { 'image/*': [] }, onDrop, noClick: true });
 
     return (
         <div
