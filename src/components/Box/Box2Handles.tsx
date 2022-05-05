@@ -55,7 +55,8 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
             className={`box ${selected ? 'selected' : ''}`}
             style={{ width: position[2], height: position[3], transform: `translate(${position[0]}px, ${position[1]}px)`, }}
         >
-            <div className="w-full h-full bg-red-100">{children}</div>
+            {/* <div className="w-full h-full bg-red-100">{children}</div> */}
+            {children}
 
             <span className="handle top" {...bind(['height', -1])} />
             <span className="handle right" {...bind(['width', 1])} />

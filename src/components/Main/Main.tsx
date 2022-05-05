@@ -45,7 +45,9 @@ export function Main() {
                 <div className="canvas" onClick={unSelect}>
                     {boxes.map((box, idx) => (
                         //<Box index={idx} selected={selection === idx} setSelect={setSelection} key={box.id} />
-                        <Box2 index={idx} selected={selection === idx} setSelect={setSelection} key={box.id} />
+                        <Box2 index={idx} selected={selection === idx} setSelect={setSelection} key={box.id}>
+                            <div style={{width: '100%', height: '100%', backgroundColor: 'red'}}></div>
+                        </Box2>
                     ))}
                 </div>
                 <div className="panel">

@@ -8,9 +8,10 @@ export type Box2ControlsProps = {
     store: StoreType;
     selected: boolean;
     setSelect: ([]: [index: number, store: StoreType]) => void;
+    children?: React.ReactNode;
 };
 
-export function Box2Controls({ index, store, selected, setSelect }: Box2ControlsProps) {
+export function Box2Controls({ index, store, selected, setSelect, children }: Box2ControlsProps) {
 
     const [{ position, size, strokeColor, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
         {
@@ -44,6 +45,8 @@ export function Box2Controls({ index, store, selected, setSelect }: Box2Controls
     }, [index, store, setSelect]);
 
     return (
-        <BodyHandles position={_position} setPosition={setPosition} selected={selected} setSelected={setSelected} />
+        <BodyHandles position={_position} setPosition={setPosition} selected={selected} setSelected={setSelected}>
+            {children}
+        </BodyHandles>
     );
 }
