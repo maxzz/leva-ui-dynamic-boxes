@@ -31,15 +31,12 @@ export function Box2Controls({ index, store, selected, setSelect }: Box2Controls
 
     const _position: Position = [...position, size.width, size.height];
 
-    //const [position2, setPosition2] = useState<Position>([0, 0, 100, 100]);
     function setPosition(v: Position) {
         set({ position: [v[0], v[1]], size: { width: v[2], height: v[3], } });
-        console.log('setPosition', v);
     }
-    //const [selected, setSelected] = useState(true);
+
     function setSelected(v: boolean) {
         setSelect([index, store]);
-        console.log('setSelected', v);
     }
 
     useEffect(() => {

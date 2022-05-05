@@ -1,4 +1,5 @@
 import { useDrag } from '@use-gesture/react';
+import './box.scss';
 
 export type Position = [x: number, y: number, width: number, height: number];
 
@@ -52,11 +53,7 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
     return (
         <div
             className={`box ${selected ? 'selected' : ''}`}
-            style={{
-                width: position[2],
-                height: position[3],
-                transform: `translate(${position[0]}px, ${position[1]}px)`,
-            }}
+            style={{ width: position[2], height: position[3], transform: `translate(${position[0]}px, ${position[1]}px)`, }}
         >
             <div className="w-full h-full bg-red-100">{children}</div>
 
