@@ -4,7 +4,7 @@ import './box.scss';
 export type Position = [x: number, y: number, width: number, height: number];
 
 export const roundPos = <T extends number[]>(position: T): T => position.map(Math.floor) as T;
-const diffPos = <A extends number[], B extends number[]>(a: A, b: B): boolean => a.length !== b.length || a.some((_a, idx) => _a !== b[idx]);
+const diffArrays = <A extends number[], B extends number[]>(a: A, b: B): boolean => a.length !== b.length || a.some((_a, idx) => _a !== b[idx]);
 
 type BodyHandlersProps = {
     position: Position;
@@ -21,37 +21,30 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
             setSelected(true);
         }
 
-        let _position = [...memo.position] as Position;
+        let newPos = [...memo.position] as Position;
 
         controls.forEach(([control, mod]: [control: 'position' | 'width' | 'height', mod: number]) => {
             switch (control) {
                 case 'position':
-                    _position[0] += x;
-                    _position[1] += y;
+                    newPos[0] += x;
+                    newPos[1] += y;
                     break;
                 case 'width':
-                    _position[2] += x * mod;
-                    if (mod === -1) _position[0] += x;
+                    newPos[2] += x * mod;
+                    if (mod === -1) newPos[0] += x;
                     break;
                 case 'height':
-                    _position[3] += y * mod;
-                    if (mod === -1) _position[1] += y;
+                    newPos[3] += y * mod;
+                    if (mod === -1) newPos[1] += y;
                     break;
                 default:
             }
         });
 
-        _position = roundPos(_position);
+        newPos = roundPos(newPos);
 
-        console.log('called');
-        
-        if (diffPos(_position, position)) {
-            console.log('--------------------------------------------------------');
-        }
-
-        const stillTheSame = _position[0] === position[0] && _position[1] === position[1] && _position[2] === position[2] && _position[3] === position[3];
-        if (!stillTheSame) {
-            setPosition(_position);
+        if (diffArrays(newPos, position)) {
+            setPosition(newPos);
         }
 
         return memo;
