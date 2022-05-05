@@ -13,7 +13,7 @@ export type Box2ControlsProps = {
 
 export function Box2Controls({ index, store, selected, setSelect, children }: Box2ControlsProps) {
 
-    const [{ position, size, strokeColor, fillColor, fillMode, fillImage, width }, set] = useControls(() => (
+    const [{ position, size, fillMode, fillColor, fillImage, strokeColor, strokeWidth }, set] = useControls(() => (
         {
             position: { value: [window.innerWidth / 2 - 150, window.innerHeight / 2], step: 1, },
             size: { value: { width: 100, height: 100 }, min: 10, lock: true },
@@ -24,25 +24,17 @@ export function Box2Controls({ index, store, selected, setSelect, children }: Bo
                 fillImage: { image: undefined, label: 'fill image', render: (get) => get('style.fillMode') === 'image', },
 
                 strokeColor: { value: '#555555', label: 'stroke-color' },
-                width: { value: 1, min: 0, max: 10, step: 1, label: 'stroke-width' },
+                strokeWidth: { value: 1, min: 0, max: 10, step: 1, label: 'stroke-width' },
             }),
         }),
         { store }
     );
 
     const _position: Position = [...position, size.width, size.height];
+    const setPosition = (v: Position) => set({ position: [v[0], v[1]], size: { width: v[2], height: v[3], } });
+    const setSelected = (v: boolean) => setSelect([index, store]);
 
-    function setPosition(v: Position) {
-        set({ position: [v[0], v[1]], size: { width: v[2], height: v[3], } });
-    }
-
-    function setSelected(v: boolean) {
-        setSelect([index, store]);
-    }
-
-    useEffect(() => {
-        setSelect([index, store]);
-    }, [index, store, setSelect]);
+    useEffect(() => setSelected(true), [index, store]);
 
     return (
         <BodyHandles position={_position} setPosition={setPosition} selected={selected} setSelected={setSelected}>
