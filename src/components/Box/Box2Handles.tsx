@@ -16,6 +16,8 @@ type BodyHandlersProps = {
 
 export function BodyHandles({ position, setPosition, selected, setSelected, children }: BodyHandlersProps) {
 
+    let updateCnt = 0;
+
     const bind = useDrag(({ first, movement: [x, y], args: controls, memo = { position } }) => {
         if (first) {
             setSelected(true);
@@ -32,12 +34,12 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
                 case 'width':
                     newPos[2] += x * mod;
                     if (mod === -1) newPos[0] += x;
-                    console.log('pos width ', roundPos(newPos), memo.position);
+                    //console.log('pos width ', roundPos(newPos), memo.position);
                     break;
                 case 'height':
                     newPos[3] += y * mod;
                     if (mod === -1) newPos[1] += y;
-                    console.log('pos height', roundPos(newPos), memo.position);
+                    //console.log('pos height', roundPos(newPos), memo.position);
                     break;
                 default:
             }
@@ -45,8 +47,9 @@ export function BodyHandles({ position, setPosition, selected, setSelected, chil
 
         newPos = roundPos(newPos);
 
+        updateCnt++;
         if (diffArrays(newPos, position)) {
-            console.log('------------set');
+            console.log('------------set', updateCnt);
             
             setPosition(newPos);
         }
