@@ -13,7 +13,14 @@ var a: PropsWithoutStore<typeof Box2Controls> = {
 };
 console.log(a);
 
-export function Box2WithStore(props: Omit<Box2ControlsProps, 'store'>) {
+// export function Box2WithStore(props: Omit<Box2ControlsProps, 'store'>) {
+//     const store = useCreateStore();
+//     return (
+//         <Box2Controls {...props} store={store} />
+//     );
+// };
+
+export function Box2WithStore(props: PropsWithoutStore<typeof Box2Controls>) {
     const store = useCreateStore();
     return (
         <Box2Controls {...props} store={store} />
