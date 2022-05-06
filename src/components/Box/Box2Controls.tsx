@@ -1,6 +1,6 @@
+import { useCallback, useEffect } from "react";
 import { folder, useControls } from "leva";
 import { StoreType } from "leva/dist/declarations/src/types";
-import { useEffect } from "react";
 import { BodyHandles, Position } from "./Box2Handles";
 
 export type Box2ControlsProps = {
@@ -28,8 +28,8 @@ export function Box2Controls({ index, store, selected, setSelect, children }: Bo
     }), { store });
 
     const _position: Position = [...position, size.width, size.height];
-    const setPosition = (v: Position) => set({ position: [v[0], v[1]], size: { width: v[2], height: v[3], } });
-    const setSelected = (v: boolean) => setSelect([index, store]);
+    const setPosition = useCallback((v: Position) => set({ position: [v[0], v[1]], size: { width: v[2], height: v[3], } }), [set]);
+    const setSelected = useCallback((v: boolean) => setSelect([index, store]), [setSelect]);
 
     useEffect(() => setSelected(true), [index, store]);
 
