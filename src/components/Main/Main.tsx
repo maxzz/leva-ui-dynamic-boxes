@@ -10,7 +10,7 @@ export function Main() {
 
     React.useEffect(() => {
         function deleteSelection(e: KeyboardEvent) {
-            if (e.key === 'Backspace' && selection > -1 && (e.target as HTMLElement)?.classList.contains('selected')) {
+            if (e.key === 'Backspace' && selection > -1) {
                 setBoxes((b) => {
                     const _b = [...b];
                     _b.splice(selection, 1);
